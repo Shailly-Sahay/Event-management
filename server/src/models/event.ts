@@ -11,7 +11,7 @@ export type EventType = {
   updatedAt?: Date;
 };
 
-const eventSchema = new mongoose.Schema<EventType>(
+const eventSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -23,6 +23,7 @@ const eventSchema = new mongoose.Schema<EventType>(
       enum: ["conference", "wedding", "birthday", "meetup"],
     },
     maxAttendees: { type: Number, default: 0 },
+    attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Stores registered user IDs
   },
   { timestamps: true }
 );

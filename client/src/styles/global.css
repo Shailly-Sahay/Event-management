@@ -7,6 +7,8 @@
 
   --dark-text-color: #110503;
   --light-text-color: #f7f2e7; /* Ivory White */
+  --succes-color: #39e75f;
+  --error-color: red;
 
   /* Spacing */
   --spacing-xs: 4px;
