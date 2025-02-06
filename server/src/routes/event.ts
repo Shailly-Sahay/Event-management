@@ -80,59 +80,30 @@ eventRouter.post(
   }
 );
 
-/**
- * @route   POST /events/:eventId/attend
- * @desc    Register user for an event
- * @access  Private (Requires authentication)
- */
-// eventRouter.post(
-//   "/:eventId/attend",
-//   verifyToken,
-//   async (req: AuthenticatedRequest, res: Response) => {
-//     try {
-//       const eventId = req.params.eventId;
-//       const userId = req.userId; // ✅ FIXED: Make sure `req.userId` exists
+eventRouter.get("/fetch", async (req: Request, res: Response) => {
+  try {
+    const { category, location, sortBy } = req.query;
 
-//       if (!userId) {
-//         res.status(401).json({ message: "Unauthorized: No user ID found" });
-//         return;
-//       }
+    let query: any = {};
+    if (category) query.category = category;
+    if (location) query.location = { $regex: location, $options: "i" };
 
-//       const event = await Event.findById(eventId);
-//       const user = await User.findById(userId);
+    let sortOption: any = {};
+    if (sortBy === "date") {
+      sortOption.dateTime = 1; // Sort by date ascending
+    } else if (sortBy === "name") {
+      sortOption.name = 1; // Sort alphabetically
+    }
 
-//       if (!event) {
-//         return res.status(404).json({ message: "Event not found" });
-//       }
+    // Fetch events from DB with filters & sorting
+    const response = await Event.find(query).sort(sortOption);
+    console.log(response);
 
-//       if (!user) {
-//         return res.status(404).json({ message: "User not found" });
-//       }
-
-//       // Check if user is already attending
-//       if (event.attendees.includes(userId)) {
-//         return res
-//           .status(400)
-//           .json({ message: "User is already attending this event" });
-//       }
-
-//       // Add user to event attendees list
-//       event.attendees.push(userId);
-//       await event.save();
-
-//       // Add event to user's registeredEvents list
-//       user.registeredEvents.push(eventId);
-//       await user.save();
-
-//       res
-//         .status(200)
-//         .json({ message: "Successfully registered for the event" });
-//       return;
-//     } catch (error) {
-//       console.error(error);
-//       return res.status(500).json({ message: "Internal server error" });
-//     }
-//   }
-// );
+    res.status(200).json({ success: true, response });
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
 
 export default eventRouter;

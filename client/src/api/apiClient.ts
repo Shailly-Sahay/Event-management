@@ -98,3 +98,18 @@ export const createEvent = async (formData: EventFormData) => {
 
   return body;
 };
+
+// Get Event
+export const getEvents = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/event/fetch`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch events");
+  }
+
+  const data = await response.json();
+  return data.response;
+};
