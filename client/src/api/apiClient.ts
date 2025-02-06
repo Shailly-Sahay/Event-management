@@ -1,5 +1,6 @@
 import { RegisterFormData } from "../pages/Register";
 import { SignInFormData } from "../pages/Login";
+import { EventFormData } from "../ui/components/EventForm";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -63,4 +64,23 @@ export const signOut = async () => {
   if (!response.ok) {
     throw new Error("Error during signout");
   }
+};
+
+// Event creation
+export const createEvent = async (formData: EventFormData) => {
+  const response = await fetch(`${API_BASE_URL}/api/event/create`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  const body = await response.json();
+  if (!response.ok) {
+    throw new Error(body.message);
+  }
+
+  return body;
 };

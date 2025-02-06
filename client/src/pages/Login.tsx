@@ -10,8 +10,6 @@ export type SignInFormData = {
   password: string;
 };
 
-// 6985_shailly
-
 const Login = () => {
   const { showToast } = useAppContext();
   const queryClient = useQueryClient();
@@ -90,13 +88,7 @@ const Login = () => {
             Click here to create an account
           </Link>
         </span>{" "}
-        <Button
-          text="Sign In"
-          type="submit"
-          size="large"
-          className=" bg-primary text-light"
-          onClick={onSubmit}
-        />
+        <Button label="Sign In" type="submit" onClick={onSubmit} />
       </span>
     </form>
   );

@@ -7,7 +7,9 @@ const Footer = () => {
     <div className="bg-primary py-10">
       <div className="section-pd-x flex justify-between items-center">
         <Link to="/">
-          <p className="fs-body-lg text-light tracking-tight">Havenly.com</p>
+          <p className="fs-body-lg text-white font-semibold tracking-tight">
+            EventManage
+          </p>
         </Link>
         <div className="flex flex-col gap-y-4">
           <PageLink text="Privacy Policy" href="/" />

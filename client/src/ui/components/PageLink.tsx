@@ -13,7 +13,7 @@ const PageLink: React.FC<LinkProps> = ({
   textColorClass = "text-light", // Default value applied here
 }) => {
   return (
-    <Link to={href || "#"} className="group relative inline-block">
+    <Link to={href || "#"} className="group mr-8 relative inline-block">
       <span
         className={`${textColorClass} relative z-10 group-hover:text-white transition-colors duration-300`}
       >

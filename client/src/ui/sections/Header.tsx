@@ -25,20 +25,21 @@ const Header = () => {
   };
 
   return (
-    <div className="py-6">
+    <div className="py-6 bg-[var(--primary-color)]">
       <div className="section-pd-x flex justify-between items-center">
         <Link to="/">
-          <p className="fs-body-lg tracking-tight">EventManage</p>
+          <p className="fs-body-lg text-white font-semibold tracking-tight">
+            EventManage
+          </p>
         </Link>
 
         {isLoggedIn ? (
           <div className="flex items-center space-x-8">
-            <PageLink text="Dashboard" href="/dashboard" />
-            <PageLink text="My Hotels" href="/my-hotels" />
+            <PageLink text="Dashboard" href="/events" />
+            <PageLink text="My Events" href="/my-hotels" />
 
             <Button
-              type="button"
-              text="Sign out"
+              label="Sign out"
               onClick={handleSignOut}
               className="bg-light text-dark"
             />
@@ -47,7 +48,7 @@ const Header = () => {
           <div className="flex items-center space-x-2">
             <PageLink text="Upcoming Event" href="/events" />
             <Button
-              text="Sign in"
+              label="Sign in"
               href="/sign-in"
               className="bg-light text-dark"
             />

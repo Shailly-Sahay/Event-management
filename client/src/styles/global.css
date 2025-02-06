@@ -1,15 +1,12 @@
 @import "./font.css";
 
 :root {
-  --primary-color: #64182f; /* Dark Maroon */
-  --secondary-color: #f9ed9d; /* Pale Gold */
-  --accent-color: #d8a76b; /* Warm Beige */
-  --background-color: #f9ed9d; /* Pale Gold */
-  --dark-text-color: #2d1b17; /* Espresso Brown - Dark Text */
+  --primary-color: #e78878;
+  --secondary-color: #ede488;
+  --accent-color: #cde656;
+
+  --dark-text-color: #110503;
   --light-text-color: #f7f2e7; /* Ivory White */
-  --border-color: #8d5a2d; /* Rich Brown */
-  --succes-color: #39e75f;
-  --error-color: red;
 
   /* Spacing */
   --spacing-xs: 4px;
@@ -123,5 +120,5 @@ h3.header {
 }
 /* Reusable spacing */
 .section-pd-x {
-  @apply px-[6rem] md:px-[14rem] lg:px-[20rem];
+  @apply px-[6rem] md:px-[10rem] lg:px-[10rem] xl:px-[20rem];
 }
