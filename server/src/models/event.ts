@@ -1,18 +1,22 @@
 import mongoose from "mongoose";
 
 export type EventType = {
+  _id: string;
+  userId: string;
   name: string;
   description: string;
   dateTime: Date;
   location: string;
   category: "conference" | "wedding" | "birthday" | "meetup";
   maxAttendees?: number;
+  imageUrl: string[];
   createdAt?: Date;
   updatedAt?: Date;
 };
 
 const eventSchema = new mongoose.Schema(
   {
+    userId: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
     dateTime: { type: Date, required: true },
@@ -22,8 +26,8 @@ const eventSchema = new mongoose.Schema(
       required: true,
       enum: ["conference", "wedding", "birthday", "meetup"],
     },
-    maxAttendees: { type: Number, default: 0 },
-    attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Stores registered user IDs
+    maxAttendees: { type: Number, required: true, min: 1 },
+    imageUrl: [{ type: String, required: true }],
   },
   { timestamps: true }
 );

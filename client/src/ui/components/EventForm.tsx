@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../../api/apiClient";
 import { Button } from "../../ui";
 import { useAppContext } from "../../context/AppContext";
-import { Link, useNavigate } from "react-router-dom";
 
 export type EventFormData = {
   name: string; // Event Name
@@ -12,18 +11,16 @@ export type EventFormData = {
   location: string; // Event Location (Physical/Online)
   category: string; // Event Category (Conference, Birthday, etc.)
   maxAttendees?: number; // Maximum Attendees
+  imageFile: FileList;
 };
 
 const EventForm = () => {
   const { showToast } = useAppContext();
   const queryClient = useQueryClient();
 
-  const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
-    mutate,
     formState: { errors },
   } = useForm<EventFormData>();
 
@@ -38,14 +35,14 @@ const EventForm = () => {
     },
   });
 
-  function onSubmit(data) {
+  const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
-  }
+  });
 
   return (
     <form
       className="flex flex-col gap-5 lg:px-[10rem] 2xl:px-[22rem] p-6 bg-white shadow-md rounded-lg"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onSubmit}
     >
       <h2 className="text-3xl font-bold">Create an Event</h2>
 
@@ -67,7 +64,9 @@ const EventForm = () => {
         Description
         <textarea
           className="text-input border p-2 rounded w-full"
-          {...register("description", { required: "Description is required" })}
+          {...register("description", {
+            required: "Description is required",
+          })}
         />
         {errors.description && (
           <span className="text-red-500">{errors.description.message}</span>
@@ -118,14 +117,36 @@ const EventForm = () => {
         )}
       </label>
 
-      {/* Max Attendees (Optional) */}
+      {/* Max Attendees  */}
       <label className="text-label flex-1">
-        Max Attendees (Optional)
+        Max Attendees
         <input
           type="number"
           className="text-input border p-2 rounded w-full"
           {...register("maxAttendees")}
         />
+      </label>
+
+      {/* Image */}
+      <label className="text-label flex-1">
+        Image
+        <input
+          type="file"
+          accept="image/*"
+          className="text-input border p-2 rounded w-full"
+          {...register("imageFile", {
+            validate: (imageFile) => {
+              const totalLength = imageFile.length;
+              if (totalLength === 0) {
+                return "Image is required";
+              }
+              return true;
+            },
+          })}
+        />{" "}
+        {errors.imageFile && (
+          <span className="text-red-500">{errors.imageFile.message}</span>
+        )}
       </label>
 
       {/* Submit Button */}

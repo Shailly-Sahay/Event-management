@@ -1,14 +1,18 @@
 import express, { Request, Response } from "express";
-import { check, validationResult } from "express-validator";
-import Event from "../models/event";
+import { body, check, validationResult } from "express-validator";
+import Event, { EventType } from "../models/event";
 import User from "../models/user";
 import { verifyToken } from "../middlewares";
-
+import multer from "multer";
+import cloudinary from "cloudinary";
 const eventRouter = express.Router();
-
-// interface AuthenticatedRequest extends Request {
-//   userId?: string;
-// }
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB
+  },
+});
 
 /**
  * @route   POST /events/create
@@ -17,8 +21,11 @@ const eventRouter = express.Router();
  */
 eventRouter.post(
   "/create",
+  upload.array("image", 1),
   verifyToken,
   [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("description").notEmpty().withMessage("Description is required"),
     check("name", "Event name is required").not().isEmpty(),
     check("description", "Description is required").not().isEmpty(),
     check("dateTime", "A valid date and time is required").isISO8601(),
@@ -34,6 +41,7 @@ eventRouter.post(
       .isNumeric(),
   ],
   async (req: Request, res: Response) => {
+    console.log(req.body);
     // Validate request body
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -42,25 +50,30 @@ eventRouter.post(
     }
 
     try {
-      const { name, description, dateTime, location, category, maxAttendees } =
-        req.body;
+      const image = req.files as Express.Multer.File[];
+      const newEvent: EventType = req.body;
 
-      // Create new event
-      const event = new Event({
-        name,
-        description,
-        dateTime,
-        location,
-        category,
-        maxAttendees,
+      // Upload image to cloudinary
+      const uploadPromise = image.map(async (img) => {
+        const b64 = Buffer.from(img.buffer).toString("base64");
+
+        let dataURI = "data:" + img.mimetype + ";base64," + b64;
+
+        const res = await cloudinary.v2.uploader.upload(dataURI);
+
+        return res.url;
       });
+      const imageUrl = await Promise.all(uploadPromise);
+      newEvent.imageUrl = imageUrl;
+      newEvent.userId = req.userId;
 
-      await event.save(); // Save event to database
+      //   Save Event
+      const event = new Event(newEvent);
+      await event.save();
 
       res.status(201).json({ message: "Event created successfully", event });
       return;
     } catch (error) {
-      console.error(error);
       res.status(500).json({ message: "Internal Server Error" });
       return;
     }

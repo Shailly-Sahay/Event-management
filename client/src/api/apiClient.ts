@@ -68,13 +68,27 @@ export const signOut = async () => {
 
 // Event creation
 export const createEvent = async (formData: EventFormData) => {
+  console.log("Sending Data:", formData);
+
+  // Convert formData to FormData object
+  const data = new FormData();
+  data.append("name", formData.name);
+  data.append("description", formData.description);
+  data.append("dateTime", formData.dateTime);
+  data.append("location", formData.location);
+  data.append("category", formData.category);
+  if (formData.maxAttendees)
+    data.append("maxAttendees", formData.maxAttendees.toString());
+
+  // Append image file
+  if (formData.imageFile && formData.imageFile.length > 0) {
+    data.append("image", formData.imageFile[0]); // ✅ Now sending file correctly
+  }
+
   const response = await fetch(`${API_BASE_URL}/api/event/create`, {
     method: "POST",
     credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
+    body: data,
   });
 
   const body = await response.json();
@@ -84,4 +98,3 @@ export const createEvent = async (formData: EventFormData) => {
 
   return body;
 };
-//
