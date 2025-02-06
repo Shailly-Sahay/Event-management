@@ -31,7 +31,7 @@ const Register = () => {
 
       // Invalidate auth-token
       await queryClient.invalidateQueries("validate-token");
-      navigate("/");
+      navigate("/dashboard");
     },
     onError: (error: Error) => {
       showToast({ message: error.message, type: "ERROR" });

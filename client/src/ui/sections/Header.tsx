@@ -25,15 +25,15 @@ const Header = () => {
   };
 
   return (
-    <div className="bg-primary py-6">
+    <div className="py-6">
       <div className="section-pd-x flex justify-between items-center">
         <Link to="/">
-          <p className="fs-body-lg text-light tracking-tight">EventManage</p>
+          <p className="fs-body-lg tracking-tight">EventManage</p>
         </Link>
 
         {isLoggedIn ? (
           <div className="flex items-center space-x-8">
-            <PageLink text="My Bookings" href="/my-bookings" />
+            <PageLink text="Dashboard" href="/dashboard" />
             <PageLink text="My Hotels" href="/my-hotels" />
 
             <Button
@@ -45,6 +45,7 @@ const Header = () => {
           </div>
         ) : (
           <div className="flex items-center space-x-2">
+            <PageLink text="Upcoming Event" href="/events" />
             <Button
               text="Sign in"
               href="/sign-in"

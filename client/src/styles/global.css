@@ -123,5 +123,5 @@ h3.header {
 }
 /* Reusable spacing */
 .section-pd-x {
-  @apply px-[var(--spacing-sm)] md:px-[var(--spacing-md)] lg:px-[var(--spacing-lg)];
+  @apply px-[6rem] md:px-[14rem] lg:px-[20rem];
 }

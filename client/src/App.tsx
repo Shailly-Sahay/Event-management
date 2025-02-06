@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Layout from "./layouts/Layout";
-import { Register, Login } from "./pages";
+import { Register, Login, Home } from "./pages";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
             path="/"
             element={
               <Layout>
-                <p>Home page</p>{" "}
+                <Home />
               </Layout>
             }
           />
@@ -36,6 +36,25 @@ function App() {
             element={
               <Layout>
                 <Login />
+              </Layout>
+            }
+          />
+
+          {/* dashboard */}
+          <Route
+            path="/dashboard"
+            element={
+              <Layout>
+                <p>DASHBIARD</p>
+              </Layout>
+            }
+          />
+
+          <Route
+            path="/events"
+            element={
+              <Layout>
+                <p>DASHBIARD</p>
               </Layout>
             }
           />

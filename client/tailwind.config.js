@@ -15,6 +15,9 @@ module.exports = {
         "6xl": ["8rem", { lineHeight: "1" }],
         "7xl": ["9.6rem", { lineHeight: "1" }],
       },
+      backgroundImage: {
+        "hero-gradient": "linear-gradient(to right, #fdfbfb, #f5f7fa)",
+      },
     },
     keyframes: {
       slideIn: {
