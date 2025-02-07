@@ -24,16 +24,18 @@ const app = express();
 app.use(cookieParser());
 
 // Middleware
-app.use(express.json()); // To parse JSON bodies
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
+    methods: "GET,POST,PUT,DELETE",
   })
 );
 
-// app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+console.log(process.env.FRONTEND_URL);
 
 // Mount all routes at /api
 app.use("/api", router);

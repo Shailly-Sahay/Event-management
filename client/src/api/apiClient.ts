@@ -3,6 +3,7 @@ import { SignInFormData } from "../pages/Login";
 import { EventFormData } from "../ui/components/EventForm";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+// const API_BASE_URL = "https://event-management-1n3t.onrender.com";
 
 // Register a user
 export const register = async (formData: RegisterFormData) => {
@@ -99,35 +100,6 @@ export const createEvent = async (formData: EventFormData) => {
   return body;
 };
 
-// Get Event
-// export const getUpcomingEvents = async () => {
-//   const response = await fetch(`${API_BASE_URL}/api/event?type=upcoming`, {
-//     method: "GET",
-//     credentials: "include",
-//   });
-
-//   const body = await response.json();
-//   if (!response.ok) {
-//     throw new Error(body.message);
-//   }
-
-//   return body.events;
-// };
-
-// export const getPastEvents = async () => {
-//   const response = await fetch(`${API_BASE_URL}/api/event?type=past`, {
-//     method: "GET",
-//     credentials: "include",
-//   });
-
-//   const body = await response.json();
-//   if (!response.ok) {
-//     throw new Error(body.message);
-//   }
-
-//   return body.events;
-// };
-
 // Register in an event
 export const registerForEvent = async (eventId: string) => {
   const response = await fetch(
@@ -174,7 +146,7 @@ export const getFilteredEvents = async ({
     throw new Error(body.message);
   }
 
-  return body.events; // ✅ Return only the events array
+  return body.events;
 };
 
 // Get Attendees
