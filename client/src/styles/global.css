@@ -1,0 +1,130 @@
+@import "./font.css";
+
+:root {
+  --primary-color: #e78878;
+  --secondary-color: #ede488;
+  --accent-color: #cde656;
+
+  --dark-text-color: #110503;
+  --light-text-color: #f7f2e7; /* Ivory White */
+  --succes-color: #39e75f;
+  --error-color: red;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 6rem;
+  --spacing-md: 12rem;
+  --spacing-lg: 16rem; /*Used for section px*/
+
+  /* Border */
+  --border-radius: 4px;
+
+  /* Breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Helvetica Now Text", serif;
+  font-weight: normal;
+}
+
+p,
+span,
+a,
+button {
+  font-family: "Montserrat", serif;
+}
+
+/* Reusable color pallette classes */
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+.bg-light {
+  background-color: var(--light-text-color);
+}
+
+.text-dark {
+  color: var(--dark-text-color);
+}
+
+.text-light {
+  color: var(--light-text-color);
+}
+
+/* Font sizes */
+
+.fs-body-sm {
+  @apply text-xs;
+}
+
+p,
+p.fs-body-m,
+.fs-body-m {
+  @apply text-base;
+}
+
+.fs-body-lg {
+  @apply text-lg;
+}
+
+a,
+a,
+button {
+  @apply text-xs;
+}
+
+h1,
+h1.header {
+  @apply text-5xl;
+}
+
+h2,
+h2.header {
+  @apply text-2xl;
+}
+
+h3,
+h3.header {
+  @apply text-base;
+}
+
+.text-label {
+  @apply text-sm text-gray-500 font-semibold mb-6;
+}
+
+.text-input {
+  @apply border rounded-xl w-full py-1 px-2 font-normal text-sm;
+}
+
+.text-muted {
+  @apply font-normal;
+}
+/* Reusable spacing */
+.section-pd-x {
+  @apply px-[6rem] md:px-[10rem] lg:px-[10rem] xl:px-[20rem];
+}
+
+.section-pd-y {
+  @apply py-[6rem];
+}

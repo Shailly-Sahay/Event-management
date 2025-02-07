@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "Helvetica Now Text";
+  src: url("/fonts/helvetica/helveticanowtext-bold-demo.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helvetica Now Text";
+  src: url("/fonts/helvetica/helveticanowtext-black-demo.ttf")
+    format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helvetica Now Text";
+  src: url("/fonts/helvetica/helveticanowtext-bolditalic-demo.ttf")
+    format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Helvetica Now Text";
+  src: url("/fonts/helvetica/helveticanowtext-blackitalic-demo.ttf")
+    format("truetype");
+  font-weight: 900;
+  font-style: italic;
+}
