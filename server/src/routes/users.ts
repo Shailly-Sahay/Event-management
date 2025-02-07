@@ -32,8 +32,7 @@ userRouter.post(
 
       user = new User({ ...req.body, registeredEvents: [] });
 
-      await user.save(); // ✅ Should now work properly
-      console.log("User created successfully:", user);
+      await user.save();
 
       const token = jwt.sign(
         { userId: user._id },
@@ -50,10 +49,8 @@ userRouter.post(
       res.status(200).json({ message: "User registered successfully!" });
       return;
     } catch (error: any) {
-      console.error("Error saving user:", error); // ✅ Debugging info
       res.status(500).json({
         message: "Something went wrong",
-        error: error.message, // ✅ Include error details
       });
       return;
     }
