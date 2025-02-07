@@ -6,4 +6,6 @@ server/node_modules
 client/.env*
 server/.env*
 
+# Ignore build files
 client/dist/
+client/build/
