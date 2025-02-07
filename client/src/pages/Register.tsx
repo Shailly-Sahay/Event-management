@@ -16,7 +16,6 @@ export type RegisterFormData = {
 const Register = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
   const { showToast } = useAppContext();
   const {
     register,
@@ -43,8 +42,10 @@ const Register = () => {
   });
 
   return (
-    <form className="flex flex-col gap-5 lg:px-[10rem] 2xl:px-[22rem] ">
-      <h2 className="header">Create an account</h2>
+    <form className="flex flex-col  py-52  w-1/2 mx-auto">
+      <h3 className="text-xl  text-gray-600 font-bold mb-6">
+        Create an account
+      </h3>
       <div className="flex flex-col md:flex-row gap-5">
         {/* First name */}
         <label className="text-label flex-1">
@@ -140,9 +141,8 @@ const Register = () => {
       <span>
         {" "}
         <Button
-          text="Create Account"
+          label="Create Account"
           type="submit"
-          size="large"
           className=" bg-primary text-light"
           onClick={onSubmit}
         />

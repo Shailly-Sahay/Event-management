@@ -6,7 +6,11 @@ const Home: React.FC = () => {
   const { isLoggedIn } = useAppContext();
 
   return (
-    <section className="section-pd-x h-full grid  lg:grid-cols-[0.75fr_1fr] gap-[8rem] items-center bg-gradient-to-r from-[#fdfbfb] to-[#f5f7fa] backdrop-blur-md">
+    //     <div className="">
+    //   {/* Content */}
+    // </div>
+
+    <section className="section-pd-x h-full grid  lg:grid-cols-[0.75fr_1fr] gap-[8rem] items-center bg-gradient-to-r from-[#e78878]/10 via-[#ede488]/20 to-[#ede488]/10 backdrop-blur-md">
       {/* Left Content */}
       <div className="space-y-6">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
@@ -19,21 +23,24 @@ const Home: React.FC = () => {
 
         {/* Search Bar */}
         <div className="flex gap-12">
-          <Button
-            buttonType="secondary"
-            label="View events"
-            href="/events"
-          ></Button>
-          <Button
-            label="Organize events"
-            href={isLoggedIn ? "/events" : "/sign-in"}
-          ></Button>
+          {isLoggedIn ? (
+            <Button label="Organize events" href="/events" />
+          ) : (
+            <>
+              <Button
+                buttonType="secondary"
+                label="View events"
+                href="/events"
+              />
+              <Button label="Organize events" href="/sign-in" />
+            </>
+          )}
         </div>
       </div>
 
       {/* Right Block - Image Container */}
-      <div className="relative w-full h-[70%] rounded-2xl overflow-hidden  flex justify-center">
-        <div className="h-full flex items-center ml-auto">
+      <div className="relative w-full hidden lg:block lg:h-[70%] rounded-2xl overflow-hidden  flex justify-center">
+        <div className="h-full flex items-center ml-auto justify-end">
           <img
             src="/images/hero.png"
             alt="Hero Image"

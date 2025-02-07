@@ -10,51 +10,43 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Layout>
-                <Home />
-              </Layout>
-            }
-          />
-
-          <Route
-            path="/register"
-            element={
-              <Layout>
-                <Register />
-              </Layout>
-            }
-          />
-
-          {/* Sign In */}
-          <Route
-            path="/sign-in"
-            element={
-              <Layout>
-                <Login />
-              </Layout>
-            }
-          />
-
-          {/* dashboard */}
-          <Route
-            path="/events"
-            element={
-              <Layout>
-                <Dashboard />
-              </Layout>
-            }
-          />
-
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <Home />
+            </Layout>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Layout>
+              <Register />
+            </Layout>
+          }
+        />
+        <Route
+          path="/sign-in"
+          element={
+            <Layout>
+              <Login />
+            </Layout>
+          }
+        />
+        <Route
+          path="/events"
+          element={
+            <Layout>
+              <Dashboard />
+            </Layout>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>{" "}
+    </Router>
   );
 }
 

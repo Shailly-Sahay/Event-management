@@ -80,30 +80,131 @@ eventRouter.post(
   }
 );
 
-eventRouter.get("/fetch", async (req: Request, res: Response) => {
+/**
+ * @route   GET /api/events
+ * @desc    Fetch events with optional filters (type, category, date)
+ * @access  Public
+ */
+eventRouter.get("/", async (req: Request, res: Response) => {
   try {
-    const { category, location, sortBy } = req.query;
-
+    const { type, category, date } = req.query;
+    const currentDate = new Date();
     let query: any = {};
-    if (category) query.category = category;
-    if (location) query.location = { $regex: location, $options: "i" };
 
-    let sortOption: any = {};
-    if (sortBy === "date") {
-      sortOption.dateTime = 1; // Sort by date ascending
-    } else if (sortBy === "name") {
-      sortOption.name = 1; // Sort alphabetically
+    // Filter by type (upcoming/past)
+    if (type === "upcoming") {
+      query.dateTime = { $gte: currentDate }; // Future events
+    } else if (type === "past") {
+      query.dateTime = { $lt: currentDate }; // Past events
     }
 
-    // Fetch events from DB with filters & sorting
-    const response = await Event.find(query).sort(sortOption);
-    console.log(response);
+    // Filter by category
+    if (category) {
+      query.category = category;
+    }
 
-    res.status(200).json({ success: true, response });
+    // Filter by date
+    if (date) {
+      const selectedDate = new Date(date as string);
+      query.dateTime = {
+        $gte: selectedDate,
+        $lt: new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000), // 1-day range
+      };
+    }
+
+    const events = await Event.find(query).sort({ dateTime: 1 });
+
+    res.status(200).json({ success: true, events });
   } catch (error) {
     console.error("Error fetching events:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
+
+// Register for event
+
+/**
+ * @route   POST /events/:eventId/register
+ * @desc    Register a user for an event
+ * @access  Private (User must be logged in)
+ */
+
+eventRouter.post(
+  "/:eventId/register",
+  verifyToken,
+  async (req: Request, res: Response) => {
+    try {
+      const eventId = req.params.eventId;
+      const userId = req.userId;
+
+      const event = await Event.findById(eventId);
+      const user = await User.findById(userId);
+
+      if (!event || !user) {
+        res.status(404).json({ message: "Event or user not found" });
+        return;
+      }
+
+      // Ensure the user is not already attending the event
+      if (user.registeredEvents.includes(eventId)) {
+        res
+          .status(400)
+          .json({ message: "User is already attending this event" });
+        return;
+      }
+
+      // Ensure the event's `attendees` array exists
+      if (!event.attendees) {
+        event.attendees = [];
+      }
+
+      // Add user to event attendees list
+      event.attendees.push(userId);
+      await event.save();
+
+      // Add event to user's registeredEvents list
+      user.registeredEvents.push(eventId);
+      await user.save();
+
+      res
+        .status(200)
+        .json({ message: "Successfully registered for the event" });
+      return;
+    } catch (error) {
+      res.status(500).json({ message: "Internal Server Error" });
+      return;
+    }
+  }
+);
+
+/**
+ * @route   GET /events/:eventId/attendees
+ * @desc    Fetch attendees of an event
+ * @access  Private (Only logged-in users)
+ */
+eventRouter.get(
+  "/:eventId/attendees",
+  verifyToken,
+
+  async (req: Request, res: Response) => {
+    try {
+      const { eventId } = req.params;
+      const event = await Event.findById(eventId).populate(
+        "attendees",
+        "firstName lastName email"
+      ); // Fetch attendees details
+
+      if (!event) {
+        res.status(404).json({ message: "Event not found" });
+        return;
+      }
+
+      res.status(200).json({ attendees: event.attendees });
+    } catch (error) {
+      res.status(500).json({ message: "Internal Server Error" });
+      return;
+    }
+  }
+);
 
 export default eventRouter;

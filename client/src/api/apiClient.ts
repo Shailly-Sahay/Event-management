@@ -100,16 +100,97 @@ export const createEvent = async (formData: EventFormData) => {
 };
 
 // Get Event
-export const getEvents = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/event/fetch`, {
+// export const getUpcomingEvents = async () => {
+//   const response = await fetch(`${API_BASE_URL}/api/event?type=upcoming`, {
+//     method: "GET",
+//     credentials: "include",
+//   });
+
+//   const body = await response.json();
+//   if (!response.ok) {
+//     throw new Error(body.message);
+//   }
+
+//   return body.events;
+// };
+
+// export const getPastEvents = async () => {
+//   const response = await fetch(`${API_BASE_URL}/api/event?type=past`, {
+//     method: "GET",
+//     credentials: "include",
+//   });
+
+//   const body = await response.json();
+//   if (!response.ok) {
+//     throw new Error(body.message);
+//   }
+
+//   return body.events;
+// };
+
+// Register in an event
+export const registerForEvent = async (eventId: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/event/${eventId}/register`,
+    {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+
+  const body = await response.json();
+  if (!response.ok) {
+    throw new Error(body.message);
+  }
+
+  return body;
+};
+
+// Get Filterted events
+export const getFilteredEvents = async ({
+  type,
+  category,
+  date,
+}: {
+  type: "upcoming" | "past";
+  category?: string;
+  date?: string;
+}) => {
+  const url = new URL(`${API_BASE_URL}/api/event`);
+
+  // Append query parameters dynamically
+  url.searchParams.append("type", type);
+  if (category) url.searchParams.append("category", category);
+  if (date) url.searchParams.append("date", date);
+
+  const response = await fetch(url.toString(), {
     method: "GET",
     credentials: "include",
   });
 
+  const body = await response.json();
   if (!response.ok) {
-    throw new Error("Failed to fetch events");
+    throw new Error(body.message);
   }
 
-  const data = await response.json();
-  return data.response;
+  return body.events; // ✅ Return only the events array
+};
+
+// Get Attendees
+export const getEventAttendees = async (eventId: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/event/${eventId}/attendees`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
+
+  const body = await response.json();
+  if (!response.ok) {
+    throw new Error(body.message);
+  }
+
+  return body.attendees;
 };

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export type EventType = {
   _id: string;
-  userId: string;
+  userId: string; // Event Creator
   name: string;
   description: string;
   dateTime: Date;
@@ -10,13 +10,14 @@ export type EventType = {
   category: "conference" | "wedding" | "birthday" | "meetup";
   maxAttendees?: number;
   imageUrl: string[];
+  attendees: string[];
   createdAt?: Date;
   updatedAt?: Date;
 };
 
 const eventSchema = new mongoose.Schema(
   {
-    userId: { type: String, required: true },
+    userId: { type: String, required: true }, // Event creator
     name: { type: String, required: true },
     description: { type: String, required: true },
     dateTime: { type: Date, required: true },
@@ -28,6 +29,8 @@ const eventSchema = new mongoose.Schema(
     },
     maxAttendees: { type: Number, required: true, min: 1 },
     imageUrl: [{ type: String, required: true }],
+
+    attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

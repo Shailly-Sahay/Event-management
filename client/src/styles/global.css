@@ -101,7 +101,7 @@ h1.header {
 
 h2,
 h2.header {
-  @apply text-3xl;
+  @apply text-2xl;
 }
 
 h3,
@@ -110,11 +110,11 @@ h3.header {
 }
 
 .text-label {
-  @apply text-sm text-gray-700 font-bold;
+  @apply text-sm text-gray-500 font-semibold mb-6;
 }
 
 .text-input {
-  @apply border rounded w-full py-1 px-2 font-normal;
+  @apply border rounded-xl w-full py-1 px-2 font-normal text-sm;
 }
 
 .text-muted {
@@ -123,4 +123,8 @@ h3.header {
 /* Reusable spacing */
 .section-pd-x {
   @apply px-[6rem] md:px-[10rem] lg:px-[10rem] xl:px-[20rem];
+}
+
+.section-pd-y {
+  @apply py-[6rem];
 }

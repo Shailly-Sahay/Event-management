@@ -21,21 +21,22 @@ userRouter.post(
       res.status(400).json({ message: errors.array() });
       return;
     }
+
     try {
-      let user = await User.findOne({
-        email: req.body.email,
-      });
+      let user = await User.findOne({ email: req.body.email });
 
       if (user) {
         res.status(400).json({ message: "User already exists" });
         return;
       }
 
-      user = new User(req.body);
-      await user.save();
+      user = new User({ ...req.body, registeredEvents: [] });
+
+      await user.save(); // ✅ Should now work properly
+      console.log("User created successfully:", user);
 
       const token = jwt.sign(
-        { userId: user.id },
+        { userId: user._id },
         process.env.JWT_SECRET_KEY as string,
         { expiresIn: "1d" }
       );
@@ -45,10 +46,16 @@ userRouter.post(
         secure: process.env.NODE_ENV === "production",
         maxAge: 86400000,
       });
-      res.status(200).send({ message: "User registered succesfully!" });
+
+      res.status(200).json({ message: "User registered successfully!" });
       return;
-    } catch (error) {
-      res.status(500).send({ message: "Something went wrong" });
+    } catch (error: any) {
+      console.error("Error saving user:", error); // ✅ Debugging info
+      res.status(500).json({
+        message: "Something went wrong",
+        error: error.message, // ✅ Include error details
+      });
+      return;
     }
   }
 );

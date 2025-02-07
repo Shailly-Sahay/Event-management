@@ -1,18 +1,17 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import { Button, PageLink } from "../";
+import { Button } from "../";
 import { useAppContext } from "../../context/AppContext";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import * as apiClient from "../../api/apiClient";
 
 const Header = () => {
-  const { isLoggedIn, showToast } = useAppContext();
+  const { isLoggedIn, showToast, signOut } = useAppContext();
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const mutation = useMutation(apiClient.signOut, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries("validate-token");
+      signOut();
       showToast({ message: "Signed out successfully", type: "SUCCESS" });
     },
     onError: (error: Error) => {
@@ -35,8 +34,7 @@ const Header = () => {
 
         {isLoggedIn ? (
           <div className="flex items-center space-x-8">
-            <PageLink text="Dashboard" href="/events" />
-            <PageLink text="My Events" href="/my-hotels" />
+            {/* <PageLink text="Dashboard" href="/events" /> */}
 
             <Button
               label="Sign out"
@@ -46,7 +44,7 @@ const Header = () => {
           </div>
         ) : (
           <div className="flex items-center space-x-2">
-            <PageLink text="Upcoming Event" href="/events" />
+            {/* <PageLink text="Upcoming Event" href="/events" /> */}
             <Button
               label="Sign in"
               href="/sign-in"

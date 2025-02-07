@@ -5,6 +5,7 @@ type ButtonProps = {
   buttonType?: "primary" | "secondary";
   type?: "button" | "submit" | "reset";
   children?: React.ReactNode;
+  disabled?: boolean;
   href?: string;
   label: string;
   onClick?: () => void;
@@ -18,10 +19,11 @@ const Button: React.FC<ButtonProps> = ({
   href,
   onClick,
   label,
+  disabled = false,
   className = "",
 }) => {
   const baseClasses =
-    "px-6 py-3  font-semibold rounded-full transition duration-300 ease-in-out";
+    "px-6 py-3  font-semibold rounded-full transition duration-300 ease-in-out flex items-center";
 
   const primaryClasses = "bg-[var(--primary-color)] text-white  shadow-md";
 
@@ -45,6 +47,7 @@ const Button: React.FC<ButtonProps> = ({
         buttonType === "primary" ? primaryClasses : secondaryClasses
       } ${className}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {children ? children : label}
     </button>

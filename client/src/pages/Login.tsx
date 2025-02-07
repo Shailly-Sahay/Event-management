@@ -10,7 +10,7 @@ export type SignInFormData = {
   password: string;
 };
 
-const Login = () => {
+const SignIn = () => {
   const { showToast } = useAppContext();
   const queryClient = useQueryClient();
 
@@ -28,7 +28,7 @@ const Login = () => {
       // Invalidate auth_token
       await queryClient.invalidateQueries("validate-token");
       //   navigate to the home page
-      navigate("/");
+      navigate("/events");
     },
     onError: (error: Error) => {
       showToast({ message: error.message, type: "ERROR" });
@@ -40,11 +40,8 @@ const Login = () => {
   });
 
   return (
-    <form
-      className="flex flex-col gap-5 lg:px-[10rem] 2xl:px-[22rem] "
-      onSubmit={onSubmit}
-    >
-      <h2 className="text-3xl font-bold">Sign In</h2>
+    <form className="flex flex-col  py-52  w-1/2 mx-auto" onSubmit={onSubmit}>
+      <h3 className="text-xl  text-gray-600 font-bold mb-6">Sign In</h3>
       <label className="text-label flex-1">
         Email
         <input
@@ -80,18 +77,26 @@ const Login = () => {
         )}
       </label>
 
+      <div>
+        <Button
+          label="Sign In"
+          type="submit"
+          className="justify-center mb-4"
+          onClick={onSubmit}
+        />
+      </div>
+
       {/* Submit button */}
-      <span>
-        <span>
-          Not Registered?{" "}
+      <span className="mt-10">
+        <span className="text-sm">
+          Not Registered? {"  "}
           <Link to="/register" className="underline">
             Click here to create an account
           </Link>
         </span>{" "}
-        <Button label="Sign In" type="submit" onClick={onSubmit} />
       </span>
     </form>
   );
 };
 
-export default Login;
+export default SignIn;

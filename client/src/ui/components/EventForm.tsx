@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../../api/apiClient";
-import { Button } from "../../ui";
 import { useAppContext } from "../../context/AppContext";
+import { Button, Loader } from "../";
 
 export type EventFormData = {
   name: string; // Event Name
@@ -21,30 +21,34 @@ const EventForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<EventFormData>();
 
-  const mutation = useMutation(apiClient.createEvent, {
+  const { isLoading: isCreating, mutate } = useMutation({
+    mutationFn: apiClient.createEvent,
     onSuccess: async () => {
       showToast({ message: "Event created Successfully", type: "SUCCESS" });
       await queryClient.invalidateQueries("validate-token");
-      //   navigate("/");
+      await queryClient.invalidateQueries({ queryKey: ["events"] });
+      reset();
     },
+
     onError: (error: Error) => {
       showToast({ message: error.message, type: "ERROR" });
     },
   });
 
   const onSubmit = handleSubmit((data) => {
-    mutation.mutate(data);
+    mutate(data);
   });
 
   return (
     <form
-      className="flex flex-col gap-5 lg:px-[10rem] 2xl:px-[22rem] p-6 bg-white shadow-md rounded-lg"
+      className="flex flex-col gap-5 lg:px-[10rem] 2xl:px-[22rem] p-6  rounded-lg"
       onSubmit={onSubmit}
     >
-      <h2 className="text-3xl font-bold">Create an Event</h2>
+      <h2 className="text-xl text-gray-600">Create an Event</h2>
 
       {/* Event Name */}
       <label className="text-label flex-1">
@@ -150,12 +154,13 @@ const EventForm = () => {
       </label>
 
       {/* Submit Button */}
-      <button
-        type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-      >
-        Create Event
-      </button>
+      {isCreating ? (
+        <div className="flex justify-center">
+          <Loader show={isCreating} />
+        </div>
+      ) : (
+        <Button label="Create Event" type="submit" className="justify-center" />
+      )}
     </form>
   );
 };
