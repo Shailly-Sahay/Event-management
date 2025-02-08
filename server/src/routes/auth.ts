@@ -68,6 +68,9 @@ authRouter.post(
 // logout
 authRouter.post("/logout", (req: Request, res: Response) => {
   res.cookie("auth_token", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
     expires: new Date(0),
   });
 
