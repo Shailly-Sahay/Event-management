@@ -27,10 +27,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const allowedOrigins = [
-  process.env.FRONTEND_URL, // ✅ Your deployed Vercel frontend
-  "http://localhost:5173", // ✅ Localhost (optional)
-];
+const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5173"];
 
 app.use(
   cors({

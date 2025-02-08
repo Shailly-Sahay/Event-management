@@ -42,9 +42,9 @@ userRouter.post(
 
       res.cookie("auth_token", token, {
         httpOnly: true,
-        secure: true,
-
-        maxAge: 86400000,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
+        maxAge: 86400000, // 1 day
       });
 
       res.status(200).json({ message: "User registered successfully!" });
