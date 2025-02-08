@@ -43,7 +43,7 @@ const Dashboard = () => {
       )}
 
       {/* Toggle Buttons */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-0">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
         <h2 className="mb-12 text-gray-800 grow-0">
           {eventType === "upcoming" ? "Upcoming Events" : "Past Events"}
         </h2>

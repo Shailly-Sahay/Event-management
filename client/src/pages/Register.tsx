@@ -42,7 +42,7 @@ const Register = () => {
   });
 
   return (
-    <form className="flex flex-col  py-52  w-1/2 mx-auto">
+    <form className="flex flex-col py-32 lg:py-52 section-pd-x lg:px-0 w-full lg:w-1/2 mx-auto">
       <h3 className="text-xl  text-gray-600 font-bold mb-6">
         Create an account
       </h3>
