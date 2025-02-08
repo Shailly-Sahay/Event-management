@@ -49,3 +49,9 @@ A full-stack event management application where users can **create accounts, hos
 ## 🎯 Live Demo
 🔗 **Frontend:** https://event-management-roan-theta.vercel.app/
 🔗 **Backend:** https://event-management-1n3t.onrender.com
+
+Try it out with the user - 
+email - awesomeUser@gmail.com
+password - 123456
+
+Or make an account of your own!!
