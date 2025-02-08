@@ -2,8 +2,8 @@ import { RegisterFormData } from "../pages/Register";
 import { SignInFormData } from "../pages/Login";
 import { EventFormData } from "../ui/components/EventForm";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
-// const API_BASE_URL = "https://event-management-1n3t.onrender.com";
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+const API_BASE_URL = "https://event-management-1n3t.onrender.com";
 
 // Register a user
 export const register = async (formData: RegisterFormData) => {

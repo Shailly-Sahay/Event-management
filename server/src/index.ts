@@ -27,10 +27,22 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const allowedOrigins = [
+  process.env.FRONTEND_URL, // ✅ Your deployed Vercel frontend
+  "http://localhost:5173", // ✅ Localhost (optional)
+];
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
+    origin: (origin, callback) => {
+      console.log("CORS request from:", origin);
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Blocked by CORS: ${origin}`));
+      }
+    },
+    credentials: true, // ✅ Required for auth cookies & tokens
     methods: "GET,POST,PUT,DELETE",
   })
 );
