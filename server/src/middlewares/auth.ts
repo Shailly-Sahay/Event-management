@@ -10,20 +10,25 @@ declare global {
 }
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies["auth_token"];
+  console.log("Incoming Request Headers:", req.headers);
+  console.log("Cookies:", req.cookies);
+
+  const token =
+    req.cookies["auth_token"] || req.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    res.status(401).json({ message: "unauthorized" });
-    return;
+    console.log("Token not found!");
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
     req.userId = (decoded as JwtPayload).userId;
-
+    console.log("User authenticated:", req.userId);
     next();
   } catch (error) {
-    res.status(401).json({ message: "unauthorized" });
+    console.error("Token verification failed:", error);
+    return res.status(401).json({ message: "Unauthorized" });
   }
 };
 

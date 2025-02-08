@@ -42,7 +42,7 @@ app.use(
         callback(new Error(`Blocked by CORS: ${origin}`));
       }
     },
-    credentials: true, // ✅ Required for auth cookies & tokens
+    credentials: true,
     methods: "GET,POST,PUT,DELETE",
   })
 );
