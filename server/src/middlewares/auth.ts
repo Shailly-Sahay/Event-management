@@ -18,7 +18,8 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
   if (!token) {
     console.log("Token not found!");
-    return res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: "Unauthorized" });
+    return;
   }
 
   try {
@@ -28,7 +29,8 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (error) {
     console.error("Token verification failed:", error);
-    return res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: "Unauthorized" });
+    return;
   }
 };
 
